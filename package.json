@@ -1,0 +1,16 @@
+{
+  "name": "cloud-boost",
+  "version": "1.0.0",
+  "description": "Display the ip of user's who is accessing the website.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Soham Dodia",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2",
+    "socket.io": "^1.4.8"
+  }
+}
