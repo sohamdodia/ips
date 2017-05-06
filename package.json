@@ -4,8 +4,11 @@
   "description": "Display the ip of user's who is accessing the website.",
   "main": "app.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "6.2.2"
   },
   "author": "Soham Dodia",
   "license": "ISC",
