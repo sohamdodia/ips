@@ -31,23 +31,52 @@ var ips = [];
 // 	res.send(ips);
 // });
 
+mapping = {};
+
+function getIPsFromMapping (mapping) {
+	var keys = Object.keys(mapping);
+	var validIPs = [];
+	for (var i = 0; i < keys.length; i++) {
+		var key = keys[i];
+		if (mapping[key] > 0) {
+			validIPs.push(mapping[key]);
+		}
+	}
+}
+
 io.on('connection',(socket) => {
 	console.log('Connected');
 	var clientIp = socket.request.connection.remoteAddress;
 	clientIp = clientIp.replace(/^.*:/, '');
+
+	if (typeof mapping[clientIp] === 'undefined') {
+		mapping[clientIp] = 1;
+	} else {
+		mapping[clientIp] += 1;
+	}
+
 	if ((ips.indexOf(clientIp))  < 0) {
 		ips.push(clientIp);
 	}
 
-	io.emit('ips',ips);
+	// io.emit('ips',ips);
+
+	io.emit('ips', getIPsFromMapping(mapping));
+
 	socket.on('disconnect',() => {
 		var remove_clientIp = socket.request.connection.remoteAddress;
 		remove_clientIp = remove_clientIp.replace(/^.*:/, '');
+
+		if (typeof mapping[remove_clientIp] !== 'undefined') {
+			mapping[remove_clientIp] = mapping[remove_clientIp] <= 1 ? 0 : mapping[remove_clientIp] - 1;
+		}
+
 		if ((ips.indexOf(remove_clientIp))  < 0) {
 			ips.pop(remove_clientIp);
-			io.emit('ips',ips);
+			// io.emit('ips',ips);
 		}
 		// io.emit('ips',ips);
+		io.emit('ips', getIPsFromMapping(mapping));
 		console.log('User was disconnected');
 	});
 });
