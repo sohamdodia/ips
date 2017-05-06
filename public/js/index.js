@@ -11,12 +11,12 @@ socket.on('ips' ,function(ips) {
 	console.log(ips);
 });
 
-socket.emit('createMessage',{
-	from : 'Frank',
-	text : 'Hey'
-},function(data) {
-	console.log('Got it',data);
-});
+// socket.emit('createMessage',{
+// 	from : 'Frank',
+// 	text : 'Hey'
+// },function(data) {
+// 	console.log('Got it',data);
+// });
 socket.on('disconnect',function () {
 	console.log('disconnect');
 });

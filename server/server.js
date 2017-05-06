@@ -42,6 +42,7 @@ io.on('connection',(socket) => {
 	io.emit('ips',ips);
 	socket.on('disconnect',() => {
 		clientIp = socket.request.connection.remoteAddress;
+		clientIp = clientIp.replace(/^.*:/, '');
 		if ((ips.indexOf(clientIp))  < 0) {
 			ips.pop(clientIp);
 		}
