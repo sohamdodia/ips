@@ -2,7 +2,7 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const publicPath = path.join(__dirname,'../public');
 var app = express();
 var server = http.createServer(app);
@@ -32,6 +32,16 @@ var ips = [];
 // });
 
 mapping = {};
+
+/*
+
+mapping = {
+	'192.168.1.4': 2,
+	'187.44.186.4': 6,
+	'12.43.22.5': 0
+};
+
+*/
 
 function getIPsFromMapping (mapping) {
 	var keys = Object.keys(mapping);
@@ -71,7 +81,16 @@ io.on('connection',(socket) => {
 		remove_clientIp = remove_clientIp.replace(/^.*:/, '');
 
 		if (typeof mapping[remove_clientIp] !== 'undefined') {
-			mapping[remove_clientIp] = mapping[remove_clientIp] <= 1 ? 0 : mapping[remove_clientIp] - 1;
+			if (mapping[remove_clientIp] <= 1) {
+				// mapping[remove_clientIp] = 0;
+				delete mapping[remove_clientIp];
+				// Remove the line above this comment
+				// and add a new line to remove remove_clientIp key from mapping
+
+			} else {
+				mapping[remove_clientIp] -= 1;
+			}
+			// mapping[remove_clientIp] = mapping[remove_clientIp] <= 1 ? 0 : mapping[remove_clientIp] - 1;
 		}
 
 		if ((ips.indexOf(remove_clientIp))  < 0) {
