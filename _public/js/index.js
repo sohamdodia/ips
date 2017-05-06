@@ -8,7 +8,8 @@ socket.on('connect', function () {
 });
 
 socket.on('ips' ,function(ips) {
-	console.log(ips);
+	// console.log(ips);
+	$('body').append('<div>' + ips +'</div>');
 });
 
 // socket.emit('createMessage',{
@@ -17,6 +18,6 @@ socket.on('ips' ,function(ips) {
 // },function(data) {
 // 	console.log('Got it',data);
 // });
-socket.on('disconnect',function () {
+socket.on(	'disconnect',function () {
 	console.log('disconnect');
 });
