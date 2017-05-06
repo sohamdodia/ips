@@ -35,13 +35,16 @@ mapping = {};
 
 function getIPsFromMapping (mapping) {
 	var keys = Object.keys(mapping);
+	console.log(keys);
 	var validIPs = [];
 	for (var i = 0; i < keys.length; i++) {
 		var key = keys[i];
 		if (mapping[key] > 0) {
-			validIPs.push(mapping[key]);
+			validIPs.push(key);
 		}
 	}
+	console.log(validIPs);
+	return validIPs;
 }
 
 io.on('connection',(socket) => {
