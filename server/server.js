@@ -41,12 +41,13 @@ io.on('connection',(socket) => {
 
 	io.emit('ips',ips);
 	socket.on('disconnect',() => {
-		clientIp = socket.request.connection.remoteAddress;
-		clientIp = clientIp.replace(/^.*:/, '');
-		if ((ips.indexOf(clientIp))  < 0) {
-			ips.pop(clientIp);
+		var remove_clientIp = socket.request.connection.remoteAddress;
+		remove_clientIp = remove_clientIp.replace(/^.*:/, '');
+		if ((ips.indexOf(remove_clientIp))  < 0) {
+			ips.pop(remove_clientIp);
+			io.emit('ips',ips);
 		}
-		io.emit('ips',ips);
+		// io.emit('ips',ips);
 		console.log('User was disconnected');
 	});
 });
