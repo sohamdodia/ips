@@ -2,9 +2,9 @@
   "name": "cloud-boost",
   "version": "1.0.0",
   "description": "Display the ip of user's who is accessing the website.",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
