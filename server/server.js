@@ -8,40 +8,17 @@ var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
 app.use(express.static(publicPath));
-// const requestIp = require('request-ip');
-// app.use(requestIp.mw({attributeName : 'ipAttribute'}));
 
 var ips = [];
-// app.use(function(req,res,next()) {
-// 	var ip = req.clientIp;
-// 	ip = ip.replace(/^.*:/, '')
-// 	console.log(ip);
-// 	res.send(ip);
-// 	next();
-// });
 
-// app.get('/',function(req,res) {
-// 	console.log('Request Comes');
-// 	var ip = req.ipAttribute;
-// 	ip = ip.replace(/^.*:/, '');
-// 	if ((ips.indexOf(ip))  < 0) {
-// 		ips.push(ip);
-// 	}
-// 	console.log(ips);
-// 	res.send(ips);
-// });
-
-mapping = {};
 
 /*
-
 mapping = {
-	'192.168.1.4': 2,
-	'187.44.186.4': 6,
-	'12.43.22.5': 0
+	'IP address' : Number of tabs open from same ip
 };
-
 */
+mapping = {};
+
 
 function getIPsFromMapping (mapping) {
 	var keys = Object.keys(mapping);
@@ -68,11 +45,11 @@ io.on('connection',(socket) => {
 		mapping[clientIp] += 1;
 	}
 
-	if ((ips.indexOf(clientIp))  < 0) {
-		ips.push(clientIp);
-	}
+	// if ((ips.indexOf(clientIp))  < 0) {
+	// 	ips.push(clientIp);
+	// }
 
-	// io.emit('ips',ips);
+	// // io.emit('ips',ips);
 
 	io.emit('ips', getIPsFromMapping(mapping));
 
@@ -93,10 +70,10 @@ io.on('connection',(socket) => {
 			// mapping[remove_clientIp] = mapping[remove_clientIp] <= 1 ? 0 : mapping[remove_clientIp] - 1;
 		}
 
-		if ((ips.indexOf(remove_clientIp))  < 0) {
-			ips.pop(remove_clientIp);
-			// io.emit('ips',ips);
-		}
+		// if ((ips.indexOf(remove_clientIp))  < 0) {
+		// 	ips.pop(remove_clientIp);
+		// 	// io.emit('ips',ips);
+		// }
 		// io.emit('ips',ips);
 		io.emit('ips', getIPsFromMapping(mapping));
 		console.log('User was disconnected');
@@ -104,5 +81,5 @@ io.on('connection',(socket) => {
 });
 
 server.listen(port,() => {
-	console.log(`Server is up on port ${port}`);
+	console.log(`Server is up on port  : ${port}`);
 });
