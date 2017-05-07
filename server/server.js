@@ -19,7 +19,7 @@ mapping = {
 */
 mapping = {};
 
-
+//Get IPs
 function getIPsFromMapping (mapping) {
 	var keys = Object.keys(mapping);
 	console.log(keys);
@@ -35,10 +35,12 @@ function getIPsFromMapping (mapping) {
 }
 
 io.on('connection',(socket) => {
-	console.log('Connected');
+
+	//Get client IP who is recently connected.
 	var clientIp = socket.request.connection.remoteAddress;
 	clientIp = clientIp.replace(/^.*:/, '');
 
+	//Check if client IP already exist in mapping or not
 	if (typeof mapping[clientIp] === 'undefined') {
 		mapping[clientIp] = 1;
 	} else {
@@ -51,12 +53,16 @@ io.on('connection',(socket) => {
 
 	// // io.emit('ips',ips);
 
+	//Send IP list to all connected user.
 	io.emit('ips', getIPsFromMapping(mapping));
 
 	socket.on('disconnect',() => {
+
+		//Get client IP who is recently disconnected.
 		var remove_clientIp = socket.request.connection.remoteAddress;
 		remove_clientIp = remove_clientIp.replace(/^.*:/, '');
 
+		//Remove client IP from mapping
 		if (typeof mapping[remove_clientIp] !== 'undefined') {
 			if (mapping[remove_clientIp] <= 1) {
 				// mapping[remove_clientIp] = 0;
@@ -75,6 +81,7 @@ io.on('connection',(socket) => {
 		// 	// io.emit('ips',ips);
 		// }
 		// io.emit('ips',ips);
+		//Send IP list to all connected user.
 		io.emit('ips', getIPsFromMapping(mapping));
 		console.log('User was disconnected');
 	});
